@@ -1,0 +1,137 @@
+openapi: 3.0.1
+info:
+  description: Тестовый API
+  title: clients-data-service-test
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- description: Продукты
+  name: Products
+- description: Клиенты
+  name: Clients
+paths:
+  /card/{id}:
+    get:
+      description: Получение карты по id
+      operationId: findCartById
+      parameters:
+      - description: Идентификатор карты
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+          x-operation-subject-id: true
+        x-operation-subject-id: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card'
+          description: ОК
+        "403":
+          content: {}
+          description: Forbidden
+        "404":
+          content: {}
+          description: Not found
+        "500":
+          content: {}
+          description: Internal server error
+      tags:
+      - Products
+      x-operation-mode: PASSIVE
+      x-accepts: application/json
+  /card:
+    post:
+      description: Добавление карты в БД
+      operationId: saveCard
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/functionality'
+        description: Данные карты
+        required: true
+      responses:
+        "201":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/card'
+          description: CREATED
+        "400":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/errorsDataRs'
+          description: Bad request
+        "403":
+          content: {}
+          description: Forbidden
+        "500":
+          content: {}
+          description: Internal server error
+      tags:
+      - Products
+      x-operation-mode: ACTIVE
+      x-codegen-request-body-name: cardDto
+      x-contentType: '*/*'
+      x-accepts: '*/*'
+    put:
+      description: Обновление данных карты
+      operationId: updateCard
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/card'
+        description: Данные карты
+        required: true
+      responses:
+        "201":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/card'
+          description: CREATED
+        "400":
+          content: {}
+          description: Bad request
+        "403":
+          content: {}
+          description: Forbidden
+        "500":
+          content: {}
+          description: Internal server error
+      tags:
+      - Product
+      x-operation-mode: ACTIVE
+      x-codegen-request-body-name: cardDto
+      x-contentType: '*/*'
+      x-accepts: '*/*'
+components:
+  schemas:
+    card:
+      description: Данные о карте
+      example:
+        number: 6.027456183070403
+        name: name
+        id: 0
+      properties:
+        id:
+          description: Внутренний идентификатор карты
+          format: int64
+          type: integer
+        name:
+          description: Наименование банка
+          type: string
+        number:
+          description: Номер карты
+          type: number
+      type: object
+x-original-swagger-version: "2.0"
+

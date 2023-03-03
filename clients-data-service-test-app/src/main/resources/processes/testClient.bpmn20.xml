@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.3.4">
+  <bpmn:collaboration id="Collaboration_1ayh4ws">
+    <bpmn:participant id="Participant_0f0a19w" name="Тестовый процесс" processRef="TestProcess" />
+  </bpmn:collaboration>
+  <bpmn:error id="Error_006934k" name="CARD_ACTIVATION_IN_PC_ERROR" errorCode="CARD_ACTIVATION_IN_PC_ERROR" />
+  <bpmn:error id="Error_0sst16d" name="CARD_ACTIVATION_IN_ABS_ERROR" errorCode="CARD_ACTIVATION_IN_ABS_ERROR" />
+  <bpmn:error id="Error_12pwzrl" name="CARD_ACTIVATION_IN_PC_TIMEOUT" errorCode="CARD_ACTIVATION_IN_PC_TIMEOUT" />
+  <bpmn:error id="Error_0jinpod" name="ABS_CONNECTION_ERROR" errorCode="ABS_CONNECTION_ERROR" />
+  <bpmn:error id="Error_191fhbi" name="CHECKS_BAD_RESULT" errorCode="CHECKS_BAD_RESULT" />
+  <bpmn:error id="Error_0o6q8p9" name="RESERVED_CARD_ISSUE_ERROR" errorCode="RESERVED_CARD_ISSUE_ERROR" />
+  <bpmn:message id="Message_12zl0o4" name="AnswerOpenCardAgreement" />
+  <bpmn:error id="Error_0mazh9h" name="RESERVED_CARD_ISSUE_ERROR" errorCode="RESERVED_CARD_ISSUE_ERROR" />
+  <bpmn:process id="TestProcess" name="Тестовый процесс" isExecutable="true">
+    <bpmn:startEvent id="StartEventTest" name="Start process" camunda:modelerTemplate="start-process-template">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="bpm-action-request-adapter-class" value="" />
+          <camunda:property name="bpm-permission-operation-name" value="access-client-info" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_1wlq0o5</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="EndEvent_0hc5rpv">
+      <bpmn:incoming>SequenceFlow_1dow521</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1q2533s">
+      <bpmn:incoming>SequenceFlow_09y7f21</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1dow521</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Task_10a0exu" name="Простая задача" camunda:modelerTemplate="user-task-template">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="forbidden-execute-initiator-process" value="" />
+          <camunda:property name="change-owner-to-initiator-process" value="" />
+          <camunda:property name="bpm-permission-operation-name" value="access-client-info" />
+          <camunda:property name="bpm-action-request-adapter-class" value="ru.softlab.zikova.efr.processes.SimpleUserTask" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1wlq0o5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_09y7f21</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1wlq0o5" sourceRef="StartEventTest" targetRef="Task_10a0exu" />
+    <bpmn:sequenceFlow id="SequenceFlow_09y7f21" sourceRef="Task_10a0exu" targetRef="ExclusiveGateway_1q2533s" />
+    <bpmn:sequenceFlow id="SequenceFlow_1dow521" sourceRef="ExclusiveGateway_1q2533s" targetRef="EndEvent_0hc5rpv" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1ayh4ws">
+      <bpmndi:BPMNShape id="Participant_0f0a19w_di" bpmnElement="Participant_0f0a19w" isHorizontal="true">
+        <dc:Bounds x="157" y="80" width="1090" height="460" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_0zqeub0_di" bpmnElement="StartEventTest">
+        <dc:Bounds x="239" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="225" y="215" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1wlq0o5_di" bpmnElement="SequenceFlow_1wlq0o5">
+        <di:waypoint x="275" y="190" />
+        <di:waypoint x="347" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0hc5rpv_di" bpmnElement="EndEvent_0hc5rpv">
+        <dc:Bounds x="579" y="172" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_09y7f21_di" bpmnElement="SequenceFlow_09y7f21">
+        <di:waypoint x="447" y="190" />
+        <di:waypoint x="482" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1q2533s_di" bpmnElement="ExclusiveGateway_1q2533s" isMarkerVisible="true">
+        <dc:Bounds x="482" y="165" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1dow521_di" bpmnElement="SequenceFlow_1dow521">
+        <di:waypoint x="532" y="190" />
+        <di:waypoint x="579" y="190" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_1dnu8bv_di" bpmnElement="Task_10a0exu">
+        <dc:Bounds x="347" y="150" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

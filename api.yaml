@@ -1,0 +1,259 @@
+swagger: '2.0'
+info:
+  title: clients-data-service-test
+  description: Тестовый API
+  version: 1.0.0
+tags:
+  - name: Products
+    description: Продукты
+  - name: Clients
+    description: Клиенты
+paths:
+  /product/{id}:
+      get:
+        tags:
+          - Products
+        description: Получение продукта по id
+        operationId: findProductById
+        x-operation-mode: PASSIVE
+        produces:
+          - application/json
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            format: int64
+            required: true
+            description: Идентификатор продукта
+            x-operation-subject-id: true
+        responses:
+          200:
+            description: ОК
+            schema:
+              $ref: '#/definitions/product'
+              description: Результаты поиска
+          403:
+            description: Forbidden
+          404:
+            description: Not found
+          500:
+            description: Internal server error
+      delete:
+        tags:
+          - Products
+        description: Удаление данных продукта
+        operationId: deleteProduct
+        x-operation-mode: ACTIVE
+        parameters:
+          - in: path
+            name: id
+            type: integer
+            format: int64
+            required: true
+            description: Идентификатор продукта
+            x-operation-subject-id: true
+        responses:
+          200:
+            description: ОК
+          403:
+            description: Forbidden
+          404:
+            description: Not found
+          500:
+            description: Internal server error
+
+  /product:
+    post:
+      tags:
+        - Products
+      description: Добавление продукта в БД
+      operationId: saveProduct
+      x-operation-mode: ACTIVE
+      parameters:
+        - in: body
+          name: product
+          description: Данные продукта
+          required: true
+          schema:
+            $ref: '#/definitions/product'
+      responses:
+        200:
+          description: CREATED
+          schema:
+            $ref: '#/definitions/product'
+            description: Созданная запись
+        400:
+          description: Bad request
+        403:
+          description: Forbidden
+        500:
+          description: Internal server error
+    put:
+      tags:
+        - Products
+      description: Обновление данных продукта
+      operationId: updateProduct
+      x-operation-mode: ACTIVE
+      parameters:
+        - in: body
+          name: product
+          description: Данные продукта
+          required: true
+          schema:
+            $ref: '#/definitions/product'
+      responses:
+        200:
+          description: UPDATED
+          schema:
+            $ref: '#/definitions/product'
+        400:
+          description: Bad request
+        403:
+          description: Forbidden
+        500:
+          description: Internal server error
+
+
+  /client/{id}:
+    get:
+      tags:
+        - Client
+      description: Получение клиента по id
+      operationId: findClientById
+      x-operation-mode: PASSIVE
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Идентификатор клиента
+          x-operation-subject-id: true
+      responses:
+        200:
+          description: ОК
+          schema:
+            $ref: '#/definitions/client'
+            description: Результаты поиска
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal server error
+    delete:
+      tags:
+        - Client
+      description: Удаление данных клиента
+      operationId: deleteClient
+      x-operation-mode: ACTIVE
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          format: int64
+          required: true
+          description: Идентификатор клиента
+          x-operation-subject-id: true
+      responses:
+        200:
+          description: ОК
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal server error
+
+  /client:
+    post:
+      tags:
+        - Client
+      description: Добавление клиента в БД
+      operationId: saveClient
+      x-operation-mode: ACTIVE
+      parameters:
+        - in: body
+          name: product
+          description: Данные клиента
+          required: true
+          schema:
+            $ref: '#/definitions/client'
+      responses:
+        200:
+          description: CREATED
+          schema:
+            $ref: '#/definitions/client'
+            description: Созданная запись
+        400:
+          description: Bad request
+        403:
+          description: Forbidden
+        500:
+          description: Internal server error
+    put:
+      tags:
+        - Client
+      description: Обновление данных клиента
+      operationId: updateClient
+      x-operation-mode: ACTIVE
+      parameters:
+        - in: body
+          name: client
+          description: Данные клиента
+          required: true
+          schema:
+            $ref: '#/definitions/client'
+      responses:
+        200:
+          description: UPDATED
+          schema:
+            $ref: '#/definitions/client'
+        400:
+          description: Bad request
+        403:
+          description: Forbidden
+        500:
+          description: Internal server error
+
+
+
+definitions:
+  product:
+    description: Данные о продукте
+    type: object
+    x-loggable-entity: true
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Внутренний идентификатор продукта
+      number:
+        type: string
+        description: Номер продукта
+      type:
+        type: string
+        description: Тип продукта
+      client_id:
+        type: integer
+        description: ID клиента
+  client:
+    description: Данные о клиенте
+    type: object
+    x-loggable-entity: true
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Внутренний идентификатор клиента
+      name:
+        type: string
+        description: Имя клиента
+      surname:
+        type: string
+        description: Фамилия клиента
+      isActive:
+        type: boolean
+        description: Актуальность
